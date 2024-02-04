@@ -1,23 +1,42 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
+
+/**
+ * Retrieves the routes for all modules.
+ *
+ * @return {Promise<Array<Array<RouteRecordRaw>>>} An array of arrays containing the routes for each module.
+ */
+async function getModuleRoutes(): Promise<Array<Array<RouteRecordRaw>>> {
+    const modulesRoutes: Array<Array<RouteRecordRaw>> = [];
+    const modules = import.meta.glob('../modules/*/router.ts', { import: 'default', eager: true });
+
+    if (!modules) {
+        return [];
+    }
+
+    const modulesArr = Object.values(modules);
+
+    modulesArr.forEach((module: unknown) => {
+        modulesRoutes.push(module as Array<RouteRecordRaw>);
+    });
+
+    return modulesRoutes;
+}
+
+const moduleRoutes = await getModuleRoutes();
+
+export const routes: readonly RouteRecordRaw[] = [
+    {
+        path: '/',
+        name: 'home',
+        component: HomeView
+    },
+    ...moduleRoutes.flat()
+];
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
-    routes: [
-        {
-            path: '/',
-            name: 'home',
-            component: HomeView
-        },
-        {
-            path: '/samples',
-            name: 'samples',
-            // route level code-splitting
-            // this generates a separate chunk (About.[hash].js) for this route
-            // which is lazy-loaded when the route is visited.
-            component: () => import('../modules/sampleModule/components/SampleEntryPoint.vue')
-        }
-    ]
+    routes
 });
 
 export default router;

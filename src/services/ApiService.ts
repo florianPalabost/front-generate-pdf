@@ -1,32 +1,44 @@
-import axios from 'axios';
-
-const URL = 'http://localhost:3000';
+import axios, { AxiosError } from 'axios';
+import { ToastService } from './ToastService';
 
 type Id = string | number;
-class ApiService {
-    async retrieveAll<Type>(): Promise<unknown> {
-        return await axios.get<Type>(URL);
+
+export class ApiService {
+    readonly baseUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/';
+
+    toastService: ToastService;
+    private static _instance: ApiService | null = null;
+
+    private constructor() {
+        this.toastService = ToastService.getInstance();
     }
 
-    async retrieveOne<Type>(id: Id): Promise<unknown> {
-        return await axios.get<Type>(URL + '/' + id);
+    public static getInstance(): ApiService {
+        return this._instance ?? new this();
     }
 
-    async create<Type>(newItem: Type): Promise<unknown> {
-        return await axios.post<Type>(URL, newItem);
+    async get<Type>(subPath: string): Promise<Type | null> {
+        const response = await axios.get<Type>(this.baseUrl + subPath).catch((error: AxiosError) => {
+            console.error('error', error);
+            this.toastService.error('Api call error: ' + error.message);
+        });
+
+        if (response?.data) {
+            return response.data;
+        }
+
+        return null;
     }
 
-    async update<Type>(id: string | number, updatedItem: Type): Promise<unknown> {
-        return await axios.patch(URL + '/' + id, updatedItem);
+    async post<Type>(subPath: string, newItem: Type): Promise<unknown> {
+        return await axios.post<Type>(this.baseUrl + subPath, newItem);
     }
 
-    async removeAll<Type>(): Promise<unknown> {
-        return await axios.delete<Type>(URL);
+    async put<Type>(subPath: string, updatedItem: Type): Promise<unknown> {
+        return await axios.put(this.baseUrl + subPath, updatedItem);
     }
 
-    async removeOne<Type>(id: Id): Promise<unknown> {
-        return await axios.delete<Type>(URL + '/' + id);
+    async delete<Type>(subPath: string): Promise<unknown> {
+        return await axios.delete<Type>(this.baseUrl + subPath);
     }
 }
-
-export default new ApiService();
