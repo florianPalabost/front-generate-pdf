@@ -70,7 +70,7 @@ export class PdfService {
     }
 
     async generate(pdfName: string) {
-        await this._apiService.get('generate/' + pdfName);
+        await this._apiService.get('http://localhost:3001/generate/' + pdfName);
 
         this._toastService.success('Pdf generated !');
     }

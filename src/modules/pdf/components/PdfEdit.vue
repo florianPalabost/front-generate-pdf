@@ -17,9 +17,7 @@
             }
         }
     });
-    const pdfForm = new PdfForm(
-        ...Object.values(props.pdf)
-    );
+    const pdfForm = new PdfForm(...Object.values(props.pdf));
     const store = usePdfStore();
 
     const validate = () => {
@@ -40,30 +38,10 @@
     <div class="bg-white p-8">
         <h1 class="text-2xl mb-4">Edit</h1>
 
-        <v-text-field
-            v-model="pdfForm.id"
-            label="id*"
-            required
-            type="string"
-        ></v-text-field>
-        <v-text-field
-            v-model="pdfForm.name"
-            label="name*"
-            required
-            type="string"
-        ></v-text-field>
-        <v-text-field
-            v-model="pdfForm.description"
-            label="description*"
-            required
-            type="string"
-        ></v-text-field>
-        <v-text-field
-            v-model="pdfForm.createdAt"
-            label="createdAt*"
-            required
-            type="Date"
-        ></v-text-field>
+        <v-text-field v-model="pdfForm.id" label="id*" required type="string"></v-text-field>
+        <v-text-field v-model="pdfForm.name" label="name*" required type="string"></v-text-field>
+        <v-text-field v-model="pdfForm.description" label="description*" required type="string"></v-text-field>
+        <v-text-field v-model="pdfForm.createdAt" label="createdAt*" required type="Date"></v-text-field>
 
         <div class="flex flex-row gap-x-8 justify-center">
             <div class="">

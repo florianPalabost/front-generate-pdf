@@ -17,11 +17,13 @@ export class ApiService {
         return this._instance ?? new this();
     }
 
-    async get<Type>(subPath: string): Promise<Type | null> {
-        const response = await axios.get<Type>(this.baseUrl + subPath).catch((error: AxiosError) => {
-            console.error('error', error);
-            this.toastService.error('Api call error: ' + error.message);
-        });
+    async get<Type>(subPath: string, useBaseUrl = true): Promise<Type | null> {
+        const response = await axios
+            .get<Type>(useBaseUrl ? this.baseUrl + subPath : subPath)
+            .catch((error: AxiosError) => {
+                console.error('error', error);
+                this.toastService.error('Api call error: ' + error.message);
+            });
 
         if (response?.data) {
             return response.data;

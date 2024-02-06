@@ -27,31 +27,10 @@
     <div class="bg-white p-8">
         <h1 class="text-2xl mb-4">Add</h1>
 
-        <v-text-field
-            v-model="newPdf.id"
-            label="id*"
-            required
-            type="string"
-        ></v-text-field>
-        <v-text-field
-            v-model="newPdf.name"
-            label="name*"
-            required
-            type="string"
-        ></v-text-field>
-        <v-text-field
-            v-model="newPdf.description"
-            label="description*"
-            required
-            type="string"
-        ></v-text-field>
-        <v-text-field
-            v-model="newPdf.createdAt"
-            label="createdAt*"
-            required
-            type="Date"
-        ></v-text-field>
-        
+        <v-text-field v-model="newPdf.id" label="id*" required type="string"></v-text-field>
+        <v-text-field v-model="newPdf.name" label="name*" required type="string"></v-text-field>
+        <v-text-field v-model="newPdf.description" label="description*" required type="string"></v-text-field>
+        <v-text-field v-model="newPdf.createdAt" label="createdAt*" required type="Date"></v-text-field>
 
         <div class="flex flex-row gap-x-8 justify-center">
             <div class="">
