@@ -39,11 +39,7 @@
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-            <tr
-                v-for="pdf in pdfs"
-                :key="pdf.id"
-                :class="pdf.id >= 0 ? 'bg-green-300' : 'bg-red-300'"
-            >
+            <tr v-for="pdf in pdfs" :key="pdf.id" :class="pdf.id >= 0 ? 'bg-green-300' : 'bg-red-300'">
                 <PdfItem :pdf="pdf" />
             </tr>
         </tbody>

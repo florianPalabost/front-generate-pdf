@@ -14,6 +14,10 @@
     const store = usePdfStore();
     const isModalEditVisible = ref(false);
 
+    const handleGeneratePdf = async () => {
+        await store.generatePdf(props.pdf.name);
+    };
+
     const toggleEdit = () => {
         isModalEditVisible.value = !isModalEditVisible.value;
     };
@@ -31,6 +35,12 @@
     <td class="text-center" v-text="`${props['pdf']['createdAt']}`"></td>
     <td>
         <div class="text-center space-x-5">
+            <button
+                @click="handleGeneratePdf"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded w-9"
+            >
+                <v-icon icon="fa-solid fa-download" class="icon" />
+            </button>
             <button
                 @click="toggleEdit"
                 class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-2 rounded w-9"

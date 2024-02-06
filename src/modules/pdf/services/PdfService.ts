@@ -68,4 +68,10 @@ export class PdfService {
 
         this._toastService.success('Pdf deleted');
     }
+
+    async generate(pdfName: string) {
+        await this._apiService.get('generate/' + pdfName);
+
+        this._toastService.success('Pdf generated !');
+    }
 }

@@ -62,6 +62,15 @@ export const usePdfStore = defineStore('pdf', {
                 console.error(error);
                 toastService.error('error: ' + error);
             }
+        },
+
+        async generatePdf(pdfName: string) {
+            try {
+                await pdfService.generate(pdfName);
+            } catch (error) {
+                console.error(error);
+                toastService.error('error: ' + error);
+            }
         }
     }
 });
