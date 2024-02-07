@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { ToastService } from './ToastService';
 
 type Id = string | number;
@@ -17,9 +17,13 @@ export class ApiService {
         return this._instance ?? new this();
     }
 
-    async get<Type>(subPath: string, useBaseUrl = true): Promise<Type | null> {
+    async get<Type>(
+        subPath: string,
+        useBaseUrl = true,
+        config: AxiosRequestConfig<any> | undefined = undefined
+    ): Promise<Type | null> {
         const response = await axios
-            .get<Type>(useBaseUrl ? this.baseUrl + subPath : subPath)
+            .get<Type>(useBaseUrl ? this.baseUrl + subPath : subPath, config)
             .catch((error: AxiosError) => {
                 console.error('error', error);
                 this.toastService.error('Api call error: ' + error.message);

@@ -70,7 +70,29 @@ export class PdfService {
     }
 
     async generate(pdfName: string) {
-        await this._apiService.get('http://localhost:3001/generate/' + pdfName);
+        const responseData: Blob | null = await this._apiService.get(
+            'http://localhost:3001/generate/' + pdfName,
+            false,
+            {
+                responseType: 'blob'
+            }
+        );
+
+        if (!responseData) {
+            this._toastService.error('Error while generating pdf');
+            return;
+        }
+
+        const blob = new Blob([responseData], { type: 'application/pdf' });
+
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = pdfName + '_' + new Date().getTime().toString() + '.pdf';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
 
         this._toastService.success('Pdf generated !');
     }
