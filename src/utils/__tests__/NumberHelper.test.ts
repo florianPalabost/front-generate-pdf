@@ -11,7 +11,7 @@ describe('NumberHelper', () => {
         it('should return NaN for an invalid string', () => {
             const str = 'abc';
             const result = NumberHelper.toNumber(str);
-            expect(isNaN(result)).toBe(true);
+            expect(Number.isNaN(result)).toBe(true);
         });
     });
 

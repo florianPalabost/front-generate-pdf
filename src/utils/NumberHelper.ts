@@ -21,7 +21,7 @@ export class NumberHelper {
      * @return {number} - The rounded number.
      */
     static roundNumber(value: number, precision = 0): number {
-        return this.toNumber(value.toFixed(precision));
+        return NumberHelper.toNumber(value.toFixed(precision));
     }
 
     /**
